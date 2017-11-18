@@ -1,8 +1,8 @@
 Description:
-    Explain the generator
+    Create migration for invitations table
 
 Example:
-    rails generate initializer Thing
+    rails generate initializer install
 
     This will create:
-        what/will/it/create
+        db/migrate/#{time_stamp}_inviter_create_invitations.rb
