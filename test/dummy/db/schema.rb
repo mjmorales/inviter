@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171118015458) do
+ActiveRecord::Schema.define(version: 20171118230725) do
+
+  create_table "invitations", force: :cascade do |t|
+    t.string "inviter_type", null: false
+    t.integer "inviter_id", null: false
+    t.string "invitee_type", null: false
+    t.integer "invitee_id", null: false
+    t.string "invited_to_type", null: false
+    t.integer "invited_to_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invited_to_type", "invited_to_id"], name: "index_invitations_on_invited_to_type_and_invited_to_id"
+    t.index ["invitee_type", "invitee_id"], name: "index_invitations_on_invitee_type_and_invitee_id"
+    t.index ["inviter_type", "inviter_id"], name: "index_invitations_on_inviter_type_and_inviter_id"
+  end
 
   create_table "parties", force: :cascade do |t|
     t.string "location"
