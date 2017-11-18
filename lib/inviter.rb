@@ -1,0 +1,3 @@
+module Inviter
+  # Your code goes here...
+end
