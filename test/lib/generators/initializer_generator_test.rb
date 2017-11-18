@@ -1,8 +1,8 @@
 require 'test_helper'
-require 'generators/initializer/initializer_generator'
+require 'generators/inviter/initializer/initializer_generator'
 
 class InitializerGeneratorTest < Rails::Generators::TestCase
-  tests InitializerGenerator
+  tests Inviter::InitializerGenerator
   destination Rails.root.join('tmp/generators')
   setup :prepare_destination
 
