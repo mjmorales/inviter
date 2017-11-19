@@ -1,4 +1,4 @@
-class InviterCreateInvitations < ActiveRecord::Migration<%= migration_version %>
+class InviterCreateInvitations < ActiveRecord::Migration[5.1]
   def change
     create_table :invitations do |t|
       t.references :inviter, polymorphic: true, index: true, null: false
