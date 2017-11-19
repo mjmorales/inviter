@@ -6,7 +6,7 @@ class Invitation < ActiveRecord::Base
   alias_attribute :accepted?, :accepted_at?
   alias_attribute :declined?, :declined_at?
 
-  after_create :trigger_callbacks
+  after_save :trigger_callbacks, if: :valid_callback?
 
   def accepted_or_declined?
     accepted? || declined?
@@ -26,15 +26,40 @@ class Invitation < ActiveRecord::Base
 
   private
 
+  [:accepted, :declined, :created].each do |action|
+    define_method("invitation_#{action}?") { eval("saved_change_to_#{action}_at?") }
+  end
+
+  def valid_callback?
+    invitation_created? || invitation_accepted? || invitation_declined?
+  end
+
+  def invitation_reset?
+    return true unless declined? || accepted?
+    false
+  end
+
+  def callback_type
+    return 'created' if invitation_created?
+    return 'reset' if invitation_reset?
+    return 'declined' if invitation_declined?
+    'accepted'
+  end
+
   def call_back_method
-    Inviter::InvitationCallbacks.invitation_created_callback(inviter, invitee, invited_to)
+    callback_args = [inviter, invitee, invited_to]
+    current_callback = "invitation_#{callback_type}_callback"
+    Inviter::InvitationCallbacks.send(current_callback, *callback_args)
   end
 
   def trigger_callbacks
     inviters = Inviter::ActsAsInviter.inviters
     invitees = Inviter::ActsAsInvitee.invitees
     invitations = Inviter::ActsAsInvitation.invitations
-    (inviters | invitees | invitations).each do |klass|
+    listeners = inviters | invitees | invitations
+
+    return unless listeners
+    listeners.each do |klass|
       _call_back_method = call_back_method
       klass.send(_call_back_method, self) if klass.respond_to?(_call_back_method)
     end
