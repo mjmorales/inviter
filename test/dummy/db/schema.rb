@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171118230725) do
+ActiveRecord::Schema.define(version: 20171119014152) do
 
   create_table "invitations", force: :cascade do |t|
     t.string "inviter_type", null: false
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 20171118230725) do
     t.integer "invitee_id", null: false
     t.string "invited_to_type", null: false
     t.integer "invited_to_id", null: false
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invited_to_type", "invited_to_id"], name: "index_invitations_on_invited_to_type_and_invited_to_id"

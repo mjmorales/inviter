@@ -3,7 +3,26 @@ class Invitation < ActiveRecord::Base
   belongs_to :invitee, polymorphic: true
   belongs_to :invited_to, polymorphic: true
 
+  alias_attribute :accepted?, :accepted_at?
+  alias_attribute :declined?, :declined_at?
+
   after_create :trigger_callbacks
+
+  def accepted_or_declined?
+    accepted_at || declined_at
+  end
+
+  def accept
+    update!(accepted_at: Time.current) unless accepted_or_declined?
+  end
+
+  def decline
+    update!(declined_at: Time.current) unless accepted_or_declined?
+  end
+
+  def reset
+    update!(accepted_at: nil, declined_at: nil)
+  end
 
   private
 
