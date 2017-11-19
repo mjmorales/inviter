@@ -18,7 +18,7 @@ class Invitation < ActiveRecord::Base
     [inviters, invitees, invitations].each do |klass|
       _call_back_method = call_back_method
       klass.each do |_klass|
-        _klass.send(_call_back_method) if _klass.respond_to?(_call_back_method)
+        _klass.send(_call_back_method, self) if _klass.respond_to?(_call_back_method)
       end
     end
   end
