@@ -71,12 +71,12 @@ invitee = User.second
 invited_to = Party.first
 inviter.send_invitation(invitee, invited_to)
 ```
-place the acts_as_invitated_to method in any model meant to show relation between an inviter and an invitee
+place the acts_as_invited_to method in any model meant to show relation between an inviter and an invitee
 ```ruby
 class Party < ApplicationRecord
-  acts_as_invitation
+  acts_as_invited_to
 ```
- Like an invitee the invited_to model can access its associated invitations using **.invitations**
+ Like an invitee, the invited_to model can access its associated invitations using **.invitations**
  ```ruby
  invited_to = Party.first
  invited_to.invitations == Invitations.where(invited_to: invited_to)
@@ -97,9 +97,8 @@ The invitation model gives you options to manipulate created invitations.
  When an valid action is done on an invitation, all invitee, inviter, and invited_to models are sent an associated _callback method for response.
  The valid actions are create, accept, declined and reset.
  To view the method name that each action will create use the 
- **Inviter::InvitationCallbacks** class.
- ####Inviter::InvitationCallbacks
- The Inviter::InvitationCallbacks class contains a callback generator for each available valid action.
+ **Inviter::InvitationCallbacks** module.
+ The Inviter::InvitationCallbacks module contains a callback generator for each available valid action.
   ```ruby
   Inviter::InvitationCallbacks.invitation_created_callback
   Inviter::InvitationCallbacks.invitation_accepted_callback
@@ -120,7 +119,23 @@ Inviter::InvitationCallbacks.invitation_reset_callback
     #=> 'user_reset_invite_from_user_to_party
 ```
 
-# Example User Model
+# Example Models
+
+```ruby
+class Party < ApplicationRecord
+  acts_as_invited_to
+
+  has_many :user_parties
+  has_many :users, through: :user_parties
+end
+```
+
+```ruby
+class UserParty < ApplicationRecord
+  belongs_to :user
+  belongs_to :party
+end
+```
 ```ruby
 class User < ApplicationRecord
   acts_as_inviter
@@ -154,8 +169,9 @@ class User < ApplicationRecord
   end
 end
 ```
-These same methods would also be executed on the Party Model if they existed.
 
+These same methods would also be executed on the Party Model if they existed.
+Each callback method also brings its associated invitation through the invitations variable.
 
 ## Contributing
 TBA
