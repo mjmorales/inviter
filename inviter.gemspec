@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Inviter::VERSION
   s.authors     = ["Manuel Morales"]
   s.email       = ["morales.jmanuel16@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Inviter."
-  s.description = "TODO: Description of Inviter."
+  s.homepage    = "https://github.com/mjmorales/inviter"
+  s.summary     = "A Light weight invitation system for Ruby on Rails."
+  s.description = ""
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
