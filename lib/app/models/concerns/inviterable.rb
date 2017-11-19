@@ -12,8 +12,8 @@ module Inviterable
       self.include(Inviter::ActsAsInvitee)
     end
 
-    def acts_as_invitation
-      self.include(Inviter::ActsAsInvitation)
+    def acts_as_invited_to
+      self.include(Inviter::ActsAsInvitedTo)
     end
   end
 end

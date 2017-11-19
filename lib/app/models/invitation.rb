@@ -55,8 +55,8 @@ class Invitation < ActiveRecord::Base
   def trigger_callbacks
     inviters = Inviter::ActsAsInviter.inviters
     invitees = Inviter::ActsAsInvitee.invitees
-    invitations = Inviter::ActsAsInvitation.invitations
-    listeners = inviters | invitees | invitations
+    invited_tos = Inviter::ActsAsInvitedTo.invited_tos
+    listeners = inviters | invitees | invited_tos
 
     return unless listeners
     listeners.each do |klass|

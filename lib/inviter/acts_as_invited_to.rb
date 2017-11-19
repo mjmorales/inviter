@@ -1,8 +1,8 @@
 module Inviter
-  module ActsAsInvitation
+  module ActsAsInvitedTo
     extend ActiveSupport::Concern
     class << self
-      attr_reader :invitations
+      attr_reader :invited_tos
     end
 
     included do
@@ -12,8 +12,8 @@ module Inviter
     private
 
     def self.included(base)
-      @invitations ||= []
-      @invitations << base
+      @invited_tos ||= []
+      @invited_tos << base
     end
   end
 end
