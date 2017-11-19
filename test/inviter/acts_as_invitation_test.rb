@@ -6,4 +6,9 @@ class ActsAsInvitationTest < ActiveSupport::TestCase
   test "should return invitation classes" do
     assert_includes(Inviter::ActsAsInvitation.invitations, Party)
   end
+
+  test "should return Invitation::ActiveRecord_Associations_CollectionProxy" do
+    assert(Party.new.invitations.class.name,
+           'Invitation::ActiveRecord_Associations_CollectionProxy')
+  end
 end
