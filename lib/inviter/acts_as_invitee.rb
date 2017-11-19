@@ -5,6 +5,10 @@ module Inviter
       attr_reader :invitees
     end
 
+    included do
+      has_many :invitations, as: :invitee
+    end
+
     private
 
     def self.included(base)

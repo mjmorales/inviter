@@ -5,6 +5,14 @@ module Inviter
       attr_reader :inviters
     end
 
+    included do
+      has_many :sent_invitations, as: :inviter, class_name: Invitation
+    end
+
+    def send_invitation(invitee, invited_to)
+      Invitation.create!(inviter: self, invitee: invitee, invited_to: invited_to)
+    end
+
     private
 
     def self.included(base)
