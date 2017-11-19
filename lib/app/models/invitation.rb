@@ -9,7 +9,7 @@ class Invitation < ActiveRecord::Base
   after_create :trigger_callbacks
 
   def accepted_or_declined?
-    accepted_at || declined_at
+    accepted? || declined?
   end
 
   def accept
