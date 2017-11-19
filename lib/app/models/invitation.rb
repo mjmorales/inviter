@@ -15,11 +15,9 @@ class Invitation < ActiveRecord::Base
     inviters = Inviter::ActsAsInviter.inviters
     invitees = Inviter::ActsAsInvitee.invitees
     invitations = Inviter::ActsAsInvitation.invitations
-    [inviters, invitees, invitations].each do |klass|
+    (inviters | invitees | invitations).each do |klass|
       _call_back_method = call_back_method
-      klass.each do |_klass|
-        _klass.send(_call_back_method, self) if _klass.respond_to?(_call_back_method)
-      end
+      klass.send(_call_back_method, self) if klass.respond_to?(_call_back_method)
     end
   end
 end
