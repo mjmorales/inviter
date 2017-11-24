@@ -6,6 +6,11 @@ class Invitation < ActiveRecord::Base
   alias_attribute :accepted?, :accepted_at?
   alias_attribute :declined?, :declined_at?
 
+  validates_uniqueness_of :inviter_id,
+                          scope: [:inviter_type, :invitee_type, :invitee_id, :invited_to_type,
+                                  :invited_to_id],
+                          message: 'invitation already exists'
+
   after_save :trigger_callbacks, if: :valid_callback?
 
   def accepted_or_declined?
@@ -13,15 +18,15 @@ class Invitation < ActiveRecord::Base
   end
 
   def accept
-    update!(accepted_at: Time.current) unless accepted_or_declined?
+    update(accepted_at: Time.current) unless accepted_or_declined?
   end
 
   def decline
-    update!(declined_at: Time.current) unless accepted_or_declined?
+    update(declined_at: Time.current) unless accepted_or_declined?
   end
 
   def reset
-    update!(accepted_at: nil, declined_at: nil)
+    update(accepted_at: nil, declined_at: nil)
   end
 
   private
