@@ -10,7 +10,7 @@ module Inviter
     end
 
     def send_invitation(invitee, invited_to)
-      Invitation.create!(inviter: self, invitee: invitee, invited_to: invited_to)
+      Invitation.create(inviter: self, invitee: invitee, invited_to: invited_to)
     end
 
     private
