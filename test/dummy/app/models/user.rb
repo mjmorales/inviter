@@ -5,8 +5,6 @@ class User < ApplicationRecord
   has_many :user_parties
   has_many :parties, through: :user_parties
 
-  private
-
   class << self
     def user_invited_user_to_party(invitation)
       :send_invitation_created_alert_to_invitee
