@@ -6,7 +6,7 @@ module Inviter
     end
 
     included do
-      has_many :sent_invitations, as: :inviter, class_name: Invitation
+      has_many :sent_invitations, as: :inviter, class_name: "Invitation"
     end
 
     def send_invitation(invitee, invited_to)
